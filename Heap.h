@@ -95,18 +95,21 @@ template<class Pri, class T>
 void Heap<Pri,T>::trickleDown(unsigned long index){
 	int left = (2 * index) + 1;
 	int right = (2 * index) + 2;
+	//So explaining this strange control structure: first, check to see if the left node is less than the right, AND that it is not a null value
+	//if true trickleDown to the left node, otherwise, check to see if the right isn't a null value, then trickle down to the right.
+	//The final case is to check when the right is a null value and the left is not, if so we want to swap, and if not, we're done and complete the method
 	if (backingArray[index] > backingArray[left] || backingArray[index] > backingArray[right]){
-		if (backingArray[left] < backingArray[right] && backingArray[left].first != 0) {
+		if (backingArray[left] < backingArray[right] && backingArray[left].second != "") {
 				backingArray[index].swap(backingArray[left]);
 				trickleDown(left);			
 		}
-		else if (backingArray[right].first != 0) {
+		else if (backingArray[right].second != "") {
 			
 				backingArray[index].swap(backingArray[right]);
 				trickleDown(right);
 			
 		}
-		else if (backingArray[left].first != 0) {
+		else if (backingArray[left].second != "") {
 			backingArray[index].swap(backingArray[left]);
 			trickleDown(left);	
 
