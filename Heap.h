@@ -46,4 +46,80 @@ private:
   void trickleDown(unsigned long index);  
 };
 
-#include "Heap.ipp"
+//Heap.ipp file
+
+
+#include <string>
+
+template<class Pri, class T>
+Heap<Pri,T>::Heap(){
+  numItems = 0;
+  arrSize = START_SIZE;
+  backingArray = new std::pair<Pri, T> [arrSize];
+}
+
+template<class Pri, class T>
+Heap<Pri,T>::~Heap(){
+	delete[] backingArray;
+}
+
+template<class Pri, class T>
+void Heap<Pri,T>::grow(){
+	std::pair<Pri, T>* tempArray = backingArray;
+	backingArray = new std::pair<Pri, T> [arrSize * 2];
+	for (int i = 0; i < numItems; i++){
+		add(tempArray[i]);
+	}
+	delete tempArray;
+}
+
+template<class Pri, class T>
+void Heap<Pri,T>::add(std::pair<Pri,T> toAdd){
+	backingArray[numItems] = toAdd;
+	bubbleUp(numItems);
+	numItems++;
+}
+
+template<class Pri, class T>
+void Heap<Pri,T>::bubbleUp(unsigned long index){
+	int parent = (index - 1) / 2;
+  
+  if (index > 0 && (backingArray[parent].first > backingArray[index].first)) {
+	  backingArray[parent].swap(backingArray[index]);
+	  bubbleUp(parent);
+  }
+
+}
+
+template<class Pri, class T>
+void Heap<Pri,T>::trickleDown(unsigned long index){
+	int left = (2 * index) + 1;
+	int right = (2 * index) + 2;
+	if (backingArray[index] > backingArray[left] || backingArray[index] > backingArray[right]){
+		if (backingArray[left] < backingArray[right]) {
+			backingArray[index].swap(backingArray[left]);
+			trickleDown(left);
+		}
+		else {
+			backingArray[index].swap(backingArray[right]);
+			trickleDown(right);
+		}
+
+
+	}
+
+
+}
+
+template<class Pri, class T>
+std::pair<Pri,T> Heap<Pri,T>::remove(){
+  //TODO
+  std::pair<Pri,T> tmp;
+  return tmp;
+}
+
+template<class Pri, class T>
+unsigned long Heap<Pri,T>::getNumItems(){
+  	return numItems;
+}
+
