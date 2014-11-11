@@ -97,12 +97,16 @@ void Heap<Pri,T>::trickleDown(unsigned long index){
 	int right = (2 * index) + 2;
 	if (backingArray[index] > backingArray[left] || backingArray[index] > backingArray[right]){
 		if (backingArray[left] < backingArray[right]) {
-			backingArray[index].swap(backingArray[left]);
-			trickleDown(left);
+			if (backingArray[left].first != 0){
+				backingArray[index].swap(backingArray[left]);
+				trickleDown(left);
+			}
 		}
 		else {
-			backingArray[index].swap(backingArray[right]);
-			trickleDown(right);
+			if (backingArray[right].first != 0){
+				backingArray[index].swap(backingArray[right]);
+				trickleDown(right);
+			}
 		}
 
 
@@ -113,9 +117,14 @@ void Heap<Pri,T>::trickleDown(unsigned long index){
 
 template<class Pri, class T>
 std::pair<Pri,T> Heap<Pri,T>::remove(){
-  //TODO
-  std::pair<Pri,T> tmp;
-  return tmp;
+	if (numItems == 0) {
+		throw std::string("In remove(), no items to remove!");
+	}
+	std::pair<Pri,T> tmp = backingArray[0];
+	backingArray[0] = backingArray[(numItems - 1)];
+	numItems--;
+	trickleDown(0);
+	return tmp;
 }
 
 template<class Pri, class T>
