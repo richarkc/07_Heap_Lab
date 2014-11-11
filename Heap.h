@@ -96,18 +96,22 @@ void Heap<Pri,T>::trickleDown(unsigned long index){
 	int left = (2 * index) + 1;
 	int right = (2 * index) + 2;
 	if (backingArray[index] > backingArray[left] || backingArray[index] > backingArray[right]){
-		if (backingArray[left] < backingArray[right]) {
-			if (backingArray[left].first != 0){
+		if (backingArray[left] < backingArray[right] && backingArray[left].first != 0) {
 				backingArray[index].swap(backingArray[left]);
-				trickleDown(left);
-			}
+				trickleDown(left);			
 		}
-		else {
-			if (backingArray[right].first != 0){
+		else if (backingArray[right].first != 0) {
+			
 				backingArray[index].swap(backingArray[right]);
 				trickleDown(right);
-			}
+			
 		}
+		else if (backingArray[left].first != 0) {
+			backingArray[index].swap(backingArray[left]);
+			trickleDown(left);	
+
+		}
+
 
 
 	}
@@ -122,8 +126,9 @@ std::pair<Pri,T> Heap<Pri,T>::remove(){
 	}
 	std::pair<Pri,T> tmp = backingArray[0];
 	backingArray[0] = backingArray[(numItems - 1)];
-	numItems--;
+	backingArray[numItems - 1] = *(new std::pair<Pri,T>);
 	trickleDown(0);
+	numItems--;
 	return tmp;
 }
 
