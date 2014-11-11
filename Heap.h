@@ -48,6 +48,7 @@ private:
 
 //Heap.ipp file
 
+//Originality: All code in this program is entirely original. Used previous BST lab as a reference for some recursive functions.
 
 #include <string>
 
@@ -66,7 +67,8 @@ Heap<Pri,T>::~Heap(){
 template<class Pri, class T>
 void Heap<Pri,T>::grow(){
 	std::pair<Pri, T>* tempArray = backingArray;
-	backingArray = new std::pair<Pri, T> [arrSize * 2];
+	arrSize *= 2;
+	backingArray = new std::pair<Pri, T> [arrSize];
 	for (int i = 0; i < numItems; i++){
 		add(tempArray[i]);
 	}
@@ -131,6 +133,7 @@ std::pair<Pri,T> Heap<Pri,T>::remove(){
 	}
 	std::pair<Pri,T> tmp = backingArray[0];
 	backingArray[0] = backingArray[(numItems - 1)];
+	// Making the last entry to a null pair.
 	backingArray[numItems - 1] = *(new std::pair<Pri,T>);
 	trickleDown(0);
 	numItems--;
