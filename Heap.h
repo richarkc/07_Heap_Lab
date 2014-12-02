@@ -102,18 +102,18 @@ void Heap<Pri,T>::trickleDown(unsigned long index){
 	//So explaining this strange control structure: first, check to see if the left node is less than the right, AND that it is not a null value
 	//if true trickleDown to the left node, otherwise, check to see if the right isn't a null value, then trickle down to the right.
 	//The final case is to check when the right is a null value and the left is not, if so we want to swap, and if not, we're done and complete the method
-	if (backingArray[index] > backingArray[left] || backingArray[index] > backingArray[right]){
-		if (backingArray[left] < backingArray[right] && backingArray[left].second != "") {
+	if (backingArray[index].first > backingArray[left].first || backingArray[index].first > backingArray[right].first){
+		if (backingArray[left].first < backingArray[right].first && (!(left >= numItems))) {
 			backingArray[index].swap(backingArray[left]);
 			trickleDown(left);			
 		}
-		else if (backingArray[right].second != "") {
+		else if (!(right >= numItems)) {
 
 			backingArray[index].swap(backingArray[right]);
 			trickleDown(right);
 
 		}
-		else if (backingArray[left].second != "") {
+		else if (!(left >= numItems)) {
 			backingArray[index].swap(backingArray[left]);
 			trickleDown(left);	
 
@@ -135,8 +135,9 @@ std::pair<Pri,T> Heap<Pri,T>::remove(){
 	backingArray[0] = backingArray[(numItems - 1)];
 	// Making the last entry to a null pair.
 	backingArray[numItems - 1] = *(new std::pair<Pri,T>);
-	trickleDown(0);
 	numItems--;
+	trickleDown(0);
+	
 	return tmp;
 }
 
