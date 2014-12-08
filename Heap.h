@@ -70,9 +70,9 @@ void Heap<Pri,T>::grow(){
 	arrSize *= 2;
 	backingArray = new std::pair<Pri, T> [arrSize];
 	for (int i = 0; i < numItems; i++){
-		add(tempArray[i]);
+		backingArray[i] = tempArray[i];
 	}
-	delete tempArray;
+	delete[] tempArray;
 }
 
 template<class Pri, class T>
@@ -131,10 +131,9 @@ std::pair<Pri,T> Heap<Pri,T>::remove(){
 	if (numItems == 0) {
 		throw std::string("In remove(), no items to remove!");
 	}
+
 	std::pair<Pri,T> tmp = backingArray[0];
 	backingArray[0] = backingArray[(numItems - 1)];
-	// Making the last entry to a null pair.
-	backingArray[numItems - 1] = *(new std::pair<Pri,T>);
 	numItems--;
 	trickleDown(0);
 	
